@@ -1,3 +1,5 @@
+-- msg @tomstephen if any of this stops working!
+
 desk = {}
 
 drawer = {
@@ -11,6 +13,7 @@ drawer = {
 
 function createDrawPhysics()
     drawer.edges = {}
+    -- oh god oh f who wrote this?
     drawer.edges.left_edge = desk.world:newRectangleCollider(drawer.x, drawer.y, drawer.edge_thickness, drawer.height)
     drawer.edges.right_edge = desk.world:newRectangleCollider(drawer.x + drawer.width + drawer.edge_thickness, drawer.y, drawer.edge_thickness, drawer.height)
     drawer.edges.top_edge = desk.world:newRectangleCollider(drawer.x + drawer.edge_thickness, drawer.y, drawer.width, drawer.edge_thickness)
@@ -56,6 +59,8 @@ function desk.load()
     createDrawPhysics()
 end
 
+stillHeld = false
+
 function desk.update(dt)
     speed = 200 * dt
     if love.keyboard.isDown("d") then
@@ -67,6 +72,27 @@ function desk.update(dt)
         drawer.x = drawer.x - speed
     end
 
+    -- x: drawer.x + drawer.width + drawer.edge_thickness * 2
+    -- y: drawer.y + drawer.height / 2
+    -- r: 50
+    
+    if love.mouse.isDown(1) then
+        local dist_to_handle = math.sqrt((love.mouse.getX() - (drawer.x + drawer.width + drawer.edge_thickness * 2))^2 + (love.mouse.getY() - (drawer.y + drawer.height / 2))^2)
+        if dist_to_handle < 50 or stillHeld then
+            stillHeld = true
+            local targetx = love.mouse.getX() - drawer.width - drawer.edge_thickness * 2
+
+            drawer.x = drawer.x + (targetx - drawer.x) * 20 * dt
+        end
+        print(dist_to_handle)
+    else
+        stillHeld = false
+    end
+
+
+
+    -- interestingly ":newRectangleCollider" uses (x,y) top left rectangles, whereas
+    -- ":setPosition" uses (x,y) center rectangles, hence the added terms to shift it
     drawer.edges.left_edge:setPosition(drawer.x + drawer.edge_thickness / 2, drawer.y + drawer.height / 2)
     drawer.edges.right_edge:setPosition(drawer.x + drawer.width + drawer.edge_thickness * 3 / 2, drawer.y + drawer.height / 2)
     drawer.edges.top_edge:setPosition(drawer.x + drawer.edge_thickness + drawer.width / 2, drawer.y + drawer.edge_thickness / 2)
