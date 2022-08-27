@@ -19,10 +19,9 @@ function love.load()
     require "tools/lsd"
     require "tools/pencil"
     require "tools/graphic_stamp"
+    require "tools/pen"
+    require "tools/blobhaj"
     require "menu/reset"
-
-
-
     
     tools.load()
     paper.load()

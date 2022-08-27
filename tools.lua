@@ -7,6 +7,8 @@ function tools.load()
         lsd,
         pencil,
         graphic_stamp,
+        pen,
+        blobhaj,
         brush
     }
 
