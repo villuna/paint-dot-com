@@ -9,6 +9,7 @@ function paper.load()
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.rectangle('fill', 0, 0, 500, 400)
     love.graphics.setCanvas()
+    
 end
 
 function paper.update()

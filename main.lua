@@ -8,10 +8,8 @@ function love.load()
     require "tools/lsd"
     require "tools/pencil"
     require "tools/graphic_stamp"
+    require "tools/brush"
 
-
-
-    
     tools.load()
     paper.load()
     desk.load()
@@ -24,7 +22,9 @@ function love.update(dt)
 end
 
 function love.draw()
+    print("hello world")
     love.graphics.setBackgroundColor(0.36, 0.36, 0.36, 1)
     desk.draw()
     paper.draw()
+
 end
