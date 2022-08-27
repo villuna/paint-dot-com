@@ -4,11 +4,13 @@ function love.load()
     require "desk"
     require "paper"
     require "tools/lsd"
+    require "tools/pencil"
 
-    paper.load()
-    selected_tool = lsd
+    selected_tool = pencil
     
+    paper.load()
     desk.load()
+
 end
 
 function love.update(dt)
