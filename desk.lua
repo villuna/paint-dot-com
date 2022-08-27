@@ -60,6 +60,7 @@ function desk.load()
 end
 
 stillHeld = false
+broken = false
 
 function desk.update(dt)
     speed = 200 * dt
@@ -72,10 +73,6 @@ function desk.update(dt)
         drawer.x = drawer.x - speed
     end
 
-    -- x: drawer.x + drawer.width + drawer.edge_thickness * 2
-    -- y: drawer.y + drawer.height / 2
-    -- r: 50
-    
     if love.mouse.isDown(1) then
         local dist_to_handle = math.sqrt((love.mouse.getX() - (drawer.x + drawer.width + drawer.edge_thickness * 2))^2 + (love.mouse.getY() - (drawer.y + drawer.height / 2))^2)
         if dist_to_handle < 50 or stillHeld then
@@ -83,20 +80,29 @@ function desk.update(dt)
             local targetx = love.mouse.getX() - drawer.width - drawer.edge_thickness * 2
 
             drawer.x = drawer.x + (targetx - drawer.x) * 20 * dt
+
+            if (targetx - drawer.x) * 20 * dt > 40 then
+                for key, val in pairs(drawer.edges) do
+                    broken = true
+                    val:setType("dynamic")
+                    val:applyLinearImpulse(math.random(-30000, 30000), math.random(-30000, 30000))
+                    val:applyAngularImpulse(math.random(-30000, 30000), math.random(-30000, 30000))
+                end
+            end
         end
-        print(dist_to_handle)
     else
         stillHeld = false
     end
 
 
-
-    -- interestingly ":newRectangleCollider" uses (x,y) top left rectangles, whereas
-    -- ":setPosition" uses (x,y) center rectangles, hence the added terms to shift it
-    drawer.edges.left_edge:setPosition(drawer.x + drawer.edge_thickness / 2, drawer.y + drawer.height / 2)
-    drawer.edges.right_edge:setPosition(drawer.x + drawer.width + drawer.edge_thickness * 3 / 2, drawer.y + drawer.height / 2)
-    drawer.edges.top_edge:setPosition(drawer.x + drawer.edge_thickness + drawer.width / 2, drawer.y + drawer.edge_thickness / 2)
-    drawer.edges.bottom_edge:setPosition(drawer.x + drawer.edge_thickness + drawer.width / 2, drawer.y + drawer.height - drawer.edge_thickness / 2)
+    if not broken then
+        -- interestingly ":newRectangleCollider" uses (x,y) top left rectangles, whereas
+        -- ":setPosition" uses (x,y) center rectangles, hence the added terms to shift it
+        drawer.edges.left_edge:setPosition(drawer.x + drawer.edge_thickness / 2, drawer.y + drawer.height / 2)
+        drawer.edges.right_edge:setPosition(drawer.x + drawer.width + drawer.edge_thickness * 3 / 2, drawer.y + drawer.height / 2)
+        drawer.edges.top_edge:setPosition(drawer.x + drawer.edge_thickness + drawer.width / 2, drawer.y + drawer.edge_thickness / 2)
+        drawer.edges.bottom_edge:setPosition(drawer.x + drawer.edge_thickness + drawer.width / 2, drawer.y + drawer.height - drawer.edge_thickness / 2)
+    end
 
     desk.world:update(dt)
 end
