@@ -4,6 +4,7 @@ function love.load()
     require "desk"
     require "paper"
     require "tools/lsd"
+    require "tools/eraser"
 
     paper.load()
     selected_tool = lsd
