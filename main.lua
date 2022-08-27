@@ -12,28 +12,28 @@ function love.load()
     require "tools/blobhaj"
     require "menu/reset"
     require "tools/brush"
+    require "no-typos-allowed"
     
     tools.load()
     paper.load()
     desk.load()
+    no_typos_allowed.load()
 end
 
 function love.update(dt)
     desk.update(dt)
     paper.update(dt)
-    reset.update()
+    no_typos_allowed.update(dt)
 end
 
 function love.draw()
     love.graphics.setBackgroundColor(0.36, 0.36, 0.36, 1)
 
     desk.draw()
-    reset.draw()
     paper.draw()
+    no_typos_allowed.draw()
 end
 
-function love.keypressed(key, scancode, isrepeat)
-    if key == "r" then
-        love.load()
-    end
+function love.keypressed(key)
+    no_typos_allowed.newchar(key)
 end
