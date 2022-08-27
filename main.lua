@@ -8,6 +8,7 @@ function love.load()
     require "tools/lsd"
     require "tools/pencil"
     require "tools/graphic_stamp"
+    require "tools/pen"
 
 
 

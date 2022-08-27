@@ -6,7 +6,8 @@ function tools.load()
     tools.tools = {
         lsd,
         pencil,
-        graphic_stamp
+        graphic_stamp,
+        pen
     }
 
     selected_tool = lsd
