@@ -7,11 +7,13 @@ function love.load()
 
     paper.load()
     selected_tool = lsd
+    
+    desk.load()
 end
 
-function love.update()
-    desk.update()
-    paper.update()
+function love.update(dt)
+    desk.update(dt)
+    paper.update(dt)
 end
 
 function love.draw()
