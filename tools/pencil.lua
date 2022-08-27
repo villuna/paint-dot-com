@@ -11,16 +11,27 @@ pencil = {
 
     -- Todo
     length = 1, -- for use with the sharpener
-    snapped = false -- lmao
+    snapped = false, -- lmao,
 }
 
 function lerp(min, max, t)
-    assert(min <= max and 0 <= t and t <= 1)
+    assert(0 <= t and t <= 1) -- min <= max and 
     return (1 - t) * min + t * max
 end
 
 function points_between(x1, y1, x2, y2)
-    local N = math.max(math.abs(y2 - y1), math.abs(x2 - x1))
+    local N = math.max(math.max(math.abs(y2 - y1), math.abs(x2 - x1)) / pencil.radius(),1)
+
+    local points = {}
+
+    for i = 1,N do
+        local x = lerp(x1, x2, i/N)
+        local y = lerp(y1, y2, i/N)
+
+        points[i] = {x = x, y = y} 
+    end
+
+    return points
 end
 
 function clamp(x, min, max)
@@ -64,6 +75,19 @@ function pencil.draw_point(px, py)
     end
 end
 
+function dump(o)
+    if type(o) == 'table' then
+       local s = '{ '
+       for k,v in pairs(o) do
+          if type(k) ~= 'number' then k = '"'..k..'"' end
+          s = s .. '['..k..'] = ' .. dump(v) .. ','
+       end
+       return s .. '} '
+    else
+       return tostring(o)
+    end
+ end
+
 function pencil.paint()
     if love.mouse.isDown(1) then
         if love.mouse.getX() > 200 and love.mouse.getX() < 700 and love.mouse.getY() > 200 and love.mouse.getY() < 600 then
@@ -71,18 +95,26 @@ function pencil.paint()
 
                 if previous ~= nil then
                     -- Interpolate between previous position and current position
-                    pencil.draw_point(love.mouse.getX() - 200, love.mouse.getY() - 200)
+                    -- pencil.draw_point(love.mouse.getX() - 200, love.mouse.getY() - 200)
+                    local points = points_between(love.mouse.getX() - 200, love.mouse.getY() - 200, previous.x, previous.y)
+                    for i, point in pairs(points) do
+                        print("points:", dump(points))
+                        print(point.x)
+                        pencil.draw_point(point.x, point.y)
+                    end
                 else
                     -- Just draw a point here
                     pencil.draw_point(love.mouse.getX() - 200, love.mouse.getY() - 200)
                 end
                 
-                previous = {love.mouse.getX() - 200, love.mouse.getY() - 200}
+                previous = {x = love.mouse.getX() - 200, y = love.mouse.getY() - 200}
 
             love.graphics.setCanvas()
 
             -- make it a bit blunter
             pencil.sharpness = clamp(pencil.sharpness - 0.005, 0, 1)
         end
+    else
+        previous = nil
     end
 end
