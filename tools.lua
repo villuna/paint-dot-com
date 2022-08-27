@@ -8,8 +8,9 @@ function tools.load()
         pencil,
         graphic_stamp,
         pen,
-        blobhaj
+        blobhaj,
+        brush
     }
 
-    selected_tool = lsd
+    selected_tool = brush
 end
