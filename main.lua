@@ -14,7 +14,7 @@ require "tools/pen"
 require "tools/blobhaj"
 require "menu/reset"
 require "tools/brush"
-
+require "no-typos-allowed"
 
 function love.load()
     menu.load()
@@ -22,6 +22,7 @@ function love.load()
     tools.load()
     paper.load()
     desk.load()
+    no_typos_allowed.load()
     col_pick.load()
 end
 
@@ -30,6 +31,7 @@ function love.update(dt)
     paper.update()
     menu.update(dt)
     col_pick.update()
+    no_typos_allowed.update(dt)
 end
 
 function reset_col()
@@ -48,10 +50,9 @@ function love.draw()
     col_pick.draw()
     reset_col()
     paper.draw()
+    no_typos_allowed.draw()
 end
 
-function love.keypressed(key, scancode, isrepeat)
-    if key == "r" then
-        love.load()
-    end
+function love.keypressed(key)
+    no_typos_allowed.newchar(key)
 end
