@@ -3,6 +3,7 @@ function love.load()
     require "desk"
     require "paper"
     require "tools"
+    require "bg"
     -- include all the tools
     -- remember to add them to tools.lua!
     require "tools/lsd"
@@ -13,6 +14,7 @@ function love.load()
     require "menu/reset"
     require "tools/brush"
     
+    bg.load()
     tools.load()
     paper.load()
     desk.load()
@@ -25,7 +27,8 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(0.36, 0.36, 0.36, 1)
+    -- love.graphics.setBackgroundColor(0.36, 0.36, 0.36, 1)
+    bg.draw()
 
     desk.draw()
     reset.draw()
