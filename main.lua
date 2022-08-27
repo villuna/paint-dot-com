@@ -1,21 +1,17 @@
+-- include other files
+require "desk"
+require "paper"
+require "tools"
+-- include all the tools
+-- remember to add them to tools.lua!
+require "tools/lsd"
+require "tools/pencil"
+require "tools/graphic_stamp"
+
 function love.load()
-    -- include other files
-    require "desk"
-    require "paper"
-    require "tools"
-    -- include all the tools
-    -- remember to add them to tools.lua!
-    require "tools/lsd"
-    require "tools/pencil"
-    require "tools/graphic_stamp"
-
-
-
-    
     tools.load()
     paper.load()
     desk.load()
-
 end
 
 function love.update(dt)
