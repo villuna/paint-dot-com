@@ -22,7 +22,7 @@ function pen.paint()
             else
                 pen.isHeld = true
             end
-            pen.px = x 
+            pen.px = x
             pen.py = y
         else
             pen.isHeld = false

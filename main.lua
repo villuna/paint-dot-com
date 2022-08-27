@@ -1,14 +1,3 @@
--- include other files
-require "desk"
-require "paper"
-require "tools"
--- include all the tools
--- remember to add them to tools.lua!
-require "tools/lsd"
-require "tools/pencil"
-require "tools/graphic_stamp"
-require "tools/brush"
-
 function love.load()
     -- include other files
     require "desk"
@@ -22,6 +11,7 @@ function love.load()
     require "tools/pen"
     require "tools/blobhaj"
     require "menu/reset"
+    require "tools/brush"
     
     tools.load()
     paper.load()
@@ -35,11 +25,11 @@ function love.update(dt)
 end
 
 function love.draw()
-    print("hello world")
     love.graphics.setBackgroundColor(0.36, 0.36, 0.36, 1)
+
     desk.draw()
-    paper.draw()
     reset.draw()
+    paper.draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)

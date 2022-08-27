@@ -98,8 +98,8 @@ function pencil.paint()
                     -- pencil.draw_point(love.mouse.getX() - 200, love.mouse.getY() - 200)
                     local points = points_between(love.mouse.getX() - 200, love.mouse.getY() - 200, previous.x, previous.y)
                     for i, point in pairs(points) do
-                        print("points:", dump(points))
-                        print(point.x)
+                        -- print("points:", dump(points))
+                        -- print(point.x)
                         pencil.draw_point(point.x, point.y)
                     end
                 else

@@ -8,7 +8,7 @@ graphic_stamp = {
     -- Stamp/Image Selection
     }
 
-local stamp_image = love.graphics.newImage("assets/graphics/sigmundfreud3.png")
+graphic_stamp.stamp_image = love.graphics.newImage("assets/graphics/sigmundfreud3.png")
 
 function graphic_stamp.paint()
     -- Called Every Update
@@ -17,7 +17,7 @@ function graphic_stamp.paint()
         if love.mouse.getX() > 200 and love.mouse.getX() < 700 and love.mouse.getY() > 200 and love.mouse.getY() < 600 then
             love.graphics.setCanvas(paper.canvas)
                 love.graphics.setBlendMode("alpha")
-                love.graphics.draw(stamp_image, love.mouse.getX() - 200, love.mouse.getY() - 200)
+                love.graphics.draw(graphic_stamp.stamp_image, love.mouse.getX() - 200, love.mouse.getY() - 200)
             love.graphics.setCanvas()
         end
     end
