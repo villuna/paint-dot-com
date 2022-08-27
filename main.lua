@@ -1,13 +1,18 @@
-selected_tool = nil
-
 function love.load()
+    -- include other files
     require "desk"
     require "paper"
+    require "tools"
+    -- include all the tools
+    -- remember to add them to tools.lua!
     require "tools/lsd"
     require "tools/pencil"
+    require "tools/graphic_stamp"
 
-    selected_tool = pencil
+
+
     
+    tools.load()
     paper.load()
     desk.load()
 

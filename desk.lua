@@ -1,24 +1,5 @@
 -- msg @tomstephen if any of this stops working!
 
-tempTools = {
-    pen = {
-        name = "pen",
-        description = "some pen I found on the floor. Maybe blue?"
-    },
-    pencil = {
-        name = "pencil",
-        description = "2B or not 2B pencil"
-    },
-    eraser = {
-        name = "50c eraser",
-        description = "a bit smudgy"
-    },
-    calculator = {
-        name = "calculator",
-        description = "it's stuck in RPN!"
-    }
-}
-
 curr_tooltip = {
     active = false,
     name = "",
@@ -49,7 +30,7 @@ function createDrawPhysics()
     end
 
     drawer.colliders = {}
-    for key, val in pairs(tempTools) do
+    for key, val in pairs(tools.tools) do
         local tempCollider = {ident = val, obj = desk.world:newRectangleCollider(love.math.random(810, 1000), love.math.random(210, 350), love.math.random(20, 100), love.math.random(20, 100))}
         table.insert(drawer.colliders, tempCollider)
     end
@@ -146,23 +127,28 @@ function desk.update(dt)
     desk.world:update(dt)
 
     -- see if mouse is hovering over a tool
-    if not love.mouse.isDown(1) then
-        for key, val in pairs(drawer.colliders) do
-            local cx = val.obj:getX()
-            local cy = val.obj:getY()
-            local mx = love.mouse.getX()
-            local my = love.mouse.getY()
+    -- if not love.mouse.isDown(1) then
+    for key, val in pairs(drawer.colliders) do
+        local cx = val.obj:getX()
+        local cy = val.obj:getY()
+        local mx = love.mouse.getX()
+        local my = love.mouse.getY()
 
-            local dist = math.sqrt((cx - mx)^2 + (cy - my)^2)
-            if dist < 30 then
-                curr_tooltip.active = true
-                curr_tooltip.name = val.ident.name
-                curr_tooltip.description = val.ident.description
-                goto tooltip_found
+        local dist = math.sqrt((cx - mx)^2 + (cy - my)^2)
+        if dist < 30 then
+            curr_tooltip.active = true
+            curr_tooltip.name = val.ident.name
+            curr_tooltip.description = val.ident.description
+
+            if love.mouse.isDown(1) then
+                selected_tool = val.ident
             end
+
+            goto tooltip_found
         end
-        curr_tooltip.active = false
     end
+    curr_tooltip.active = false
+    -- end
     ::tooltip_found::
 end
 
