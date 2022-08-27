@@ -1,4 +1,7 @@
-lsd = {}
+lsd = {
+    name = "the good stuff",
+    description = "dont worry, i won't tell the feds"
+}
 
 function lsd.paint()
     if love.mouse.isDown(1) then
