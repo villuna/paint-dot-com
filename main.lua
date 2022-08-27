@@ -1,8 +1,12 @@
+selected_tool = nil
+
 function love.load()
     require "desk"
     require "paper"
+    require "tools/lsd"
 
     paper.load()
+    selected_tool = lsd
 end
 
 function love.update()
