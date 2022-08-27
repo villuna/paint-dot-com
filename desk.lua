@@ -1,20 +1,28 @@
 desk = {}
 
-function createDrawPhysics()
-    drawer = {}
-    drawer.left_edge = desk.world:newRectangleCollider(800, 200, 10, 250)
-    drawer.right_edge = desk.world:newRectangleCollider(1210, 200, 10, 250)
-    drawer.top_edge = desk.world:newRectangleCollider(810, 200, 400, 10)
-    drawer.bottom_edge = desk.world:newRectangleCollider(810, 440, 400, 10)
+drawer = {
+    x = 800,
+    y = 125,
+    width = 300,
+    height = 500,
+    edge_thickness = 50
+}
+-- note that the x,y of the drawer is the position of the top left outer corner
 
-    drawer.left_edge:setType("static")
-    drawer.right_edge:setType("static")
-    drawer.top_edge:setType("static")
-    drawer.bottom_edge:setType("static")
+function createDrawPhysics()
+    drawer.edges = {}
+    drawer.edges.left_edge = desk.world:newRectangleCollider(drawer.x, drawer.y, drawer.edge_thickness, drawer.height)
+    drawer.edges.right_edge = desk.world:newRectangleCollider(drawer.x + drawer.width + drawer.edge_thickness, drawer.y, drawer.edge_thickness, drawer.height)
+    drawer.edges.top_edge = desk.world:newRectangleCollider(drawer.x + drawer.edge_thickness, drawer.y, drawer.width, drawer.edge_thickness)
+    drawer.edges.bottom_edge = desk.world:newRectangleCollider(drawer.x + drawer.edge_thickness, drawer.y + drawer.height - drawer.edge_thickness, drawer.width, drawer.edge_thickness)
+
+    for key, val in pairs(drawer.edges) do
+        val:setType("static")
+    end
 
     drawer.colliders = {}
     for i = 1, 15 do
-        table.insert(drawer.colliders, desk.world:newRectangleCollider(love.math.random(810, 1150), love.math.random(210, 350), 30, 50))
+        table.insert(drawer.colliders, desk.world:newRectangleCollider(love.math.random(810, 1000), love.math.random(210, 350), love.math.random(20, 100), love.math.random(20, 100)))
     end
 
     for key, val in pairs(drawer.colliders) do
@@ -36,6 +44,8 @@ function drawTable()
 end
 
 function drawDrawer()
+    love.graphics.setColor(1, 1, 0, 1)
+    love.graphics.circle("fill", drawer.x + drawer.width + drawer.edge_thickness * 2, drawer.y + drawer.height / 2, 50)
 end
 
 function desk.load()
@@ -50,23 +60,20 @@ function desk.update(dt)
     speed = 200 * dt
     if love.keyboard.isDown("d") then
         -- move drawer right
-        drawer.left_edge:setPosition(drawer.left_edge:getX() + speed, drawer.left_edge:getY())
-        drawer.right_edge:setPosition(drawer.right_edge:getX() + speed, drawer.right_edge:getY())
-        drawer.top_edge:setPosition(drawer.top_edge:getX() + speed, drawer.top_edge:getY())
-        drawer.bottom_edge:setPosition(drawer.bottom_edge:getX() + speed, drawer.bottom_edge:getY())
+        drawer.x = drawer.x + speed
     end
     if love.keyboard.isDown("a") then
         -- move drawer left
-        drawer.left_edge:setPosition(drawer.left_edge:getX() - speed, drawer.left_edge:getY())
-        drawer.right_edge:setPosition(drawer.right_edge:getX() - speed, drawer.right_edge:getY())
-        drawer.top_edge:setPosition(drawer.top_edge:getX() - speed, drawer.top_edge:getY())
-        drawer.bottom_edge:setPosition(drawer.bottom_edge:getX() - speed, drawer.bottom_edge:getY())
+        drawer.x = drawer.x - speed
     end
+
+    drawer.edges.left_edge:setPosition(drawer.x + drawer.edge_thickness / 2, drawer.y + drawer.height / 2)
+    drawer.edges.right_edge:setPosition(drawer.x + drawer.width + drawer.edge_thickness * 3 / 2, drawer.y + drawer.height / 2)
+    drawer.edges.top_edge:setPosition(drawer.x + drawer.edge_thickness + drawer.width / 2, drawer.y + drawer.edge_thickness / 2)
+    drawer.edges.bottom_edge:setPosition(drawer.x + drawer.edge_thickness + drawer.width / 2, drawer.y + drawer.height - drawer.edge_thickness / 2)
 
     desk.world:update(dt)
 end
-
-
 
 function desk.draw()
     drawTable()
