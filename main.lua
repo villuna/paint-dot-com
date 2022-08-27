@@ -4,6 +4,7 @@ require "paper"
 require "tools"
 require "bg"
 require "menu"
+require "colour_picker"
 -- include all the tools
 -- remember to add them to tools.lua!
 require "tools/lsd"
@@ -21,12 +22,14 @@ function love.load()
     tools.load()
     paper.load()
     desk.load()
+    col_pick.load()
 end
 
 function love.update(dt)
     desk.update(dt)
-    paper.update(dt)
+    paper.update()
     menu.update(dt)
+    col_pick.update()
 end
 
 function reset_col()
@@ -41,6 +44,8 @@ function love.draw()
     desk.draw()
     reset_col()
     menu.draw()
+    reset_col()
+    col_pick.draw()
     reset_col()
     paper.draw()
 end
