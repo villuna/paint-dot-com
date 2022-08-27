@@ -1,19 +1,18 @@
-
 reset = {}
 
-function reset.draw()
-    love.graphics.setColor(0.5, 0.5, 0, 1)
-    love.graphics.rectangle("fill", 0, 0, 90, 60, 0)
-    love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.print("reset (r)", 20, 30)
+function reset.load()
+    reset.dispImage = love.graphics.newImage("assets/menu_buttons/reset.png")
 end
 
 function reset.update()
     -- check if r is pressed
     local x = love.mouse.getX()
     local y = love.mouse.getY()
-    if love.keyboard.isDown("r") or (
-        love.mouse.isDown(1) and x > 0 and x < 90 and y > 0 and y < 60 ) then
+    if love.mouse.isDown(1) and x > 64 and x < 128 and y > 0 and y < 64 then
         love.load()
     end
+end
+
+function reset.draw()
+    love.graphics.draw(reset.dispImage, 64, 0, 0, 1/2, 1/2)
 end

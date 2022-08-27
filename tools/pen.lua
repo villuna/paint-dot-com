@@ -17,7 +17,7 @@ function pen.paint()
             local x = love.mouse.getX() - 200
             local y = love.mouse.getY() - 200
             if pen.isHeld then
-                love.graphics.setColor(0, 1, 0, 1)
+                love.graphics.setColor(color.r, color.g, color.b, 1)
                 love.graphics.line(pen.px, pen.py, x, y)
             else
                 pen.isHeld = true
