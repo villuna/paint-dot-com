@@ -1,5 +1,30 @@
 -- msg @tomstephen if any of this stops working!
 
+tempTools = {
+    pen = {
+        name = "pen",
+        description = "some pen I found on the floor. Maybe blue?"
+    },
+    pencil = {
+        name = "pencil",
+        description = "2B or not 2B pencil"
+    },
+    eraser = {
+        name = "50c eraser",
+        description = "a bit smudgy"
+    },
+    calculator = {
+        name = "calculator",
+        description = "it's stuck in RPN!"
+    }
+}
+
+curr_tooltip = {
+    active = false,
+    name = "",
+    description = ""
+}
+
 desk = {}
 
 drawer = {
@@ -24,15 +49,16 @@ function createDrawPhysics()
     end
 
     drawer.colliders = {}
-    for i = 1, 15 do
-        table.insert(drawer.colliders, desk.world:newRectangleCollider(love.math.random(810, 1000), love.math.random(210, 350), love.math.random(20, 100), love.math.random(20, 100)))
+    for key, val in pairs(tempTools) do
+        local tempCollider = {ident = val, obj = desk.world:newRectangleCollider(love.math.random(810, 1000), love.math.random(210, 350), love.math.random(20, 100), love.math.random(20, 100))}
+        table.insert(drawer.colliders, tempCollider)
     end
 
     for key, val in pairs(drawer.colliders) do
-        val:setRestitution(0.99)
-        val:setLinearDamping(0.1)
-        val:setAngularDamping(0.5)
-        val:applyLinearImpulse(math.random(-300, 300), math.random(-100, 100))
+        val.obj:setRestitution(0.99)
+        val.obj:setLinearDamping(0.1)
+        val.obj:setAngularDamping(0.5)
+        val.obj:applyLinearImpulse(math.random(-300, 300), math.random(-100, 100))
     end
 
 end
@@ -49,6 +75,19 @@ end
 function drawDrawer()
     love.graphics.setColor(1, 1, 0, 1)
     love.graphics.circle("fill", drawer.x + drawer.width + drawer.edge_thickness * 2, drawer.y + drawer.height / 2, 50)
+end
+
+function drawTooltip()
+    -- get mouse location
+    mx = love.mouse.getX() + 20
+    my = love.mouse.getY()
+    -- draw tooltip bg
+    love.graphics.setColor(0, 1, 0.5, 1)
+    love.graphics.rectangle("fill", mx, my, 80, 50)
+    -- draw tooltip text
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.print(curr_tooltip.name, mx + 5, my + 5)
+    love.graphics.print(curr_tooltip.description, mx + 5, my + 20)
 end
 
 function desk.load()
@@ -105,10 +144,33 @@ function desk.update(dt)
     end
 
     desk.world:update(dt)
+
+    -- see if mouse is hovering over a tool
+    if not love.mouse.isDown(1) then
+        for key, val in pairs(drawer.colliders) do
+            local cx = val.obj:getX()
+            local cy = val.obj:getY()
+            local mx = love.mouse.getX()
+            local my = love.mouse.getY()
+
+            local dist = math.sqrt((cx - mx)^2 + (cy - my)^2)
+            if dist < 30 then
+                curr_tooltip.active = true
+                curr_tooltip.name = val.ident.name
+                curr_tooltip.description = val.ident.description
+                goto tooltip_found
+            end
+        end
+        curr_tooltip.active = false
+    end
+    ::tooltip_found::
 end
 
 function desk.draw()
     drawTable()
     drawDrawer()
     desk.world:draw() -- probably remove this later, just debug info
+    if curr_tooltip.active then
+        drawTooltip()
+    end
 end
