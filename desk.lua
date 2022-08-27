@@ -77,10 +77,10 @@ function desk.load()
     desk.world:setQueryDebugDrawing(true)
 
     createDrawPhysics()
-end
 
-stillHeld = false
-broken = false
+    stillHeld = false
+    broken = false
+end
 
 function desk.update(dt)
     speed = 200 * dt

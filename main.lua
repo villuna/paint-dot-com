@@ -2,6 +2,7 @@
 require "desk"
 require "paper"
 require "tools"
+require "no-typos-allowed"
 -- include all the tools
 -- remember to add them to tools.lua!
 require "tools/lsd"
@@ -26,12 +27,13 @@ function love.load()
     tools.load()
     paper.load()
     desk.load()
+    no_typos_allowed.load()
 end
 
 function love.update(dt)
     desk.update(dt)
     paper.update(dt)
-    reset.update()
+    no_typos_allowed.update(dt)
 end
 
 function love.draw()
@@ -39,11 +41,9 @@ function love.draw()
     love.graphics.setBackgroundColor(0.36, 0.36, 0.36, 1)
     desk.draw()
     paper.draw()
-    reset.draw()
+    no_typos_allowed.draw()
 end
 
-function love.keypressed(key, scancode, isrepeat)
-    if key == "r" then
-        love.load()
-    end
+function love.keypressed(key)
+    no_typos_allowed.newchar(key)
 end
