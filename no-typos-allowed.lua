@@ -8,7 +8,7 @@ no_typos_allowed = {
 
 strings =  {
     ["clear"] = function () love.load() end,
-    ["upupdowndownleftrightleftrightba"] = function () print("test") end,
+    ["upupdowndownleftrightleftrightba"] = function () love.system.openURL("https://en.wikipedia.org/wiki/Konami_Code") end,
     ["navy"] = function () no_typos_allowed.navy = not no_typos_allowed.navy end,
     ["quit"] = function () love.event.quit() end,
     ["save"] = function () no_typos_allowed.save() end,
@@ -45,8 +45,6 @@ end
 function no_typos_allowed.newchar(key)
     if key == "return" then
         for i, v in pairs(strings) do
-            print(i)
-            print(v)
             if i == no_typos_allowed.currentstring then
                 v()
             end
@@ -58,8 +56,6 @@ function no_typos_allowed.newchar(key)
         end
         no_typos_allowed.currentstring = no_typos_allowed.currentstring..key
     end
-    print(no_typos_allowed.currentstring)
-    print(no_typos_allowed.navy)
 end
 
 function no_typos_allowed.draw()
