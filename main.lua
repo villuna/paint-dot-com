@@ -9,6 +9,7 @@ function love.load()
     require "tools/pencil"
     require "tools/graphic_stamp"
     require "tools/pen"
+    require "tools/blobhaj"
 
 
 

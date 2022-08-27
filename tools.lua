@@ -7,7 +7,8 @@ function tools.load()
         lsd,
         pencil,
         graphic_stamp,
-        pen
+        pen,
+        blobhaj
     }
 
     selected_tool = lsd
