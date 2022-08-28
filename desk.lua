@@ -9,11 +9,13 @@ curr_tooltip = {
 desk = {}
 
 drawer = {
-    x = 800,
+    x = 450,
     y = 125,
     width = 300,
     height = 500,
-    edge_thickness = 50
+    edge_thickness = 50,
+
+    image_parts = {},
 }
 -- note that the x,y of the drawer is the position of the top left outer corner
 
@@ -31,7 +33,7 @@ function createDrawPhysics()
 
     drawer.colliders = {}
     for key, val in pairs(tools.tools) do
-        local tempCollider = {ident = val, obj = desk.world:newRectangleCollider(love.math.random(810, 1000), love.math.random(210, 350), love.math.random(20, 100), love.math.random(20, 100))}
+        local tempCollider = {ident = val, obj = desk.world:newRectangleCollider(love.math.random(460, 650), love.math.random(210, 350), love.math.random(20, 100), love.math.random(20, 100))}
         table.insert(drawer.colliders, tempCollider)
     end
 
@@ -53,9 +55,21 @@ function drawTable()
     love.graphics.rectangle("fill", 100, 100, 700, 568)
 end
 
+--function drawDrawer()
+--    love.graphics.setColor(1, 1, 0, 1)
+--    love.graphics.circle("fill", drawer.x + drawer.width + drawer.edge_thickness * 2, drawer.y + drawer.height / 2, 50)
+--end
 function drawDrawer()
     love.graphics.setColor(1, 1, 0, 1)
-    love.graphics.circle("fill", drawer.x + drawer.width + drawer.edge_thickness * 2, drawer.y + drawer.height / 2, 50)
+    --love.graphics.circle("fill", drawer.x + drawer.width + drawer.edge_thickness * 2, drawer.y + drawer.height / 2, 50)
+
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.draw(drawer.image_parts.bg, drawer.x, drawer.y + 20, 0, 0.35, 0.55)
+    love.graphics.draw(drawer.image_parts.top_board, drawer.x, drawer.y - 20, 0, 0.37, 0.65)
+    love.graphics.draw(drawer.image_parts.head_board, drawer.x + drawer.width - 160, drawer.y - 45, 0, 0.4, 0.5)
+    love.graphics.draw(drawer.image_parts.bottom_board, drawer.x - 10, drawer.y + drawer.height - drawer.edge_thickness - 10, 0, 0.37, 0.3)
+
+    love.graphics.draw(drawer.image_parts.handle, drawer.x + drawer.width + drawer.edge_thickness * 2 - 20, drawer.y + drawer.height / 2 - 90, 0, 0.4, 0.4)
 end
 
 function drawTooltip()
@@ -74,12 +88,18 @@ end
 function desk.load()
     wf = require "libraries/windfield"
     desk.world = wf.newWorld(0, 0, true)
-    desk.world:setQueryDebugDrawing(true)
+    -- desk.world:setQueryDebugDrawing(false)
 
     createDrawPhysics()
 
     stillHeld = false
     broken = false
+
+    drawer.image_parts.bg = love.graphics.newImage("assets/table/drawer_bg.png")
+    drawer.image_parts.handle = love.graphics.newImage("assets/table/drawer_handle.png")
+    drawer.image_parts.bottom_board = love.graphics.newImage("assets/table/drawer_bottom_board.png")
+    drawer.image_parts.head_board = love.graphics.newImage("assets/table/drawer_headboard.png")
+    drawer.image_parts.top_board= love.graphics.newImage("assets/table/drawer_top_board.png")
 end
 
 function desk.update(dt)
@@ -100,6 +120,7 @@ function desk.update(dt)
             local targetx = love.mouse.getX() - drawer.width - drawer.edge_thickness * 2
 
             drawer.x = drawer.x + (targetx - drawer.x) * 20 * dt
+            drawer.x = clamp(drawer.x, 450, 800)
 
             if (targetx - drawer.x) * 20 * dt > 40 then
                 for key, val in pairs(drawer.edges) do
@@ -153,8 +174,8 @@ function desk.update(dt)
 end
 
 function desk.draw()
-    drawTable()
     drawDrawer()
+    drawTable()
     desk.world:draw() -- probably remove this later, just debug info
     if curr_tooltip.active then
         drawTooltip()
