@@ -11,9 +11,9 @@ desk = {}
 drawer = {
     x = 800,
     y = 125,
-    width = 300,
-    height = 500,
-    edge_thickness = 50
+    width = 180,
+    height = 270,
+    edge_thickness = 25
 }
 -- note that the x,y of the drawer is the position of the top left outer corner
 
@@ -58,6 +58,12 @@ end
 function drawDrawer()
     love.graphics.setColor(1, 1, 0, 1)
     love.graphics.circle("fill", drawer.x + drawer.width + drawer.edge_thickness * 2, drawer.y + drawer.height / 2, 50)
+
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.draw(drawer.image_parts.felt, drawer.x, drawer.y, 0, 1/3.8, 1/3)
+    love.graphics.draw(drawer.image_parts.top, drawer.x, drawer.y, 0, 1/4, 1/4)
+    love.graphics.draw(drawer.image_parts.right, drawer.x + drawer.width + drawer.edge_thickness, drawer.y, 0, 1/4, 1/4)
+    love.graphics.draw(drawer.image_parts.bottom, drawer.x - 40, drawer.y + drawer.height - drawer.edge_thickness - 10, 0, 1/4, 1/4)
 end
 
 function drawTooltip()
@@ -82,6 +88,12 @@ function desk.load()
 
     stillHeld = false
     broken = false
+
+    drawer.image_parts = {}
+    drawer.image_parts.right = love.graphics.newImage("assets/drawer_sections/right.png")
+    drawer.image_parts.top = love.graphics.newImage("assets/drawer_sections/top.png")
+    drawer.image_parts.bottom = love.graphics.newImage("assets/drawer_sections/bottom.png")
+    drawer.image_parts.felt = love.graphics.newImage("assets/drawer_sections/felt.png")
 end
 
 function desk.update(dt)
@@ -155,7 +167,6 @@ function desk.update(dt)
 end
 
 function desk.draw()
-    drawTable()
     drawDrawer()
     -- draw the image assets on the physics objects for the tools
     for key, val in pairs(drawer.colliders) do
@@ -166,16 +177,17 @@ function desk.draw()
         local th = val.obj:getAngle()
         local img = val.ident.image
         local scale = val.ident.im_sc * 1.5
-
+        
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.push()
-            love.graphics.translate(x, y)
-            love.graphics.rotate(th)
-            love.graphics.translate(-xs, -ys)
-            love.graphics.draw(img, 0, 0, 0, scale, scale)
+        love.graphics.translate(x, y)
+        love.graphics.rotate(th)
+        love.graphics.translate(-xs, -ys)
+        love.graphics.draw(img, 0, 0, 0, scale, scale)
         love.graphics.pop()
     end
-    desk.world:draw() -- probably remove this later, just debug info
+    drawTable()
+    -- desk.world:draw() -- probably remove this later, just debug info
     if curr_tooltip.active then
         drawTooltip()
     end
