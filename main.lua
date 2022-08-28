@@ -50,6 +50,9 @@ function love.draw()
     col_pick.draw()
     reset_col()
     paper.draw()
+    reset_col()
+    tools.draw()
+    reset_col()
     no_typos_allowed.draw()
 end
 

@@ -24,6 +24,10 @@ function generate_stars()
 
 end
 
+function brush.load()
+    -- brush.image = love.graphics.newImage("assets/tools/brush.png")
+end
+
 function brush.paint()
     -- Go absolutely wild here
     -- This function is called every update

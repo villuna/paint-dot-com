@@ -6,9 +6,16 @@ pen = {
     description = "just a pen",
     isHeld = false,
     px = 0, -- "previous x"
-    py = 0
-    -- TODO: some kind of image/model for the drawer
+    py = 0,
+    im_sc = 1/16, -- image scaler
+    im_rot = math.pi * 3/4, -- image rotater for in hand
+    im_width = 15,
+    im_height = 60
 }
+
+function pen.load()
+    pen.image = love.graphics.newImage("assets/tools/pen.png")
+end
 
 function pen.paint()
     love.graphics.setCanvas(paper.canvas)

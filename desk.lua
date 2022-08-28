@@ -31,7 +31,9 @@ function createDrawPhysics()
 
     drawer.colliders = {}
     for key, val in pairs(tools.tools) do
-        local tempCollider = {ident = val, obj = desk.world:newRectangleCollider(love.math.random(810, 1000), love.math.random(210, 350), love.math.random(20, 100), love.math.random(20, 100))}
+        local width = val.im_width
+        local height = val.im_height
+        local tempCollider = {ident = val, obj = desk.world:newRectangleCollider(love.math.random(810, 1000), love.math.random(210, 350), width, height)}
         table.insert(drawer.colliders, tempCollider)
     end
 
@@ -155,6 +157,24 @@ end
 function desk.draw()
     drawTable()
     drawDrawer()
+    -- draw the image assets on the physics objects for the tools
+    for key, val in pairs(drawer.colliders) do
+        local x = val.obj:getX()
+        local xs = val.ident.im_width / 2
+        local y = val.obj:getY()
+        local ys = val.ident.im_height / 2
+        local th = val.obj:getAngle()
+        local img = val.ident.image
+        local scale = val.ident.im_sc * 1.5
+
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.push()
+            love.graphics.translate(x, y)
+            love.graphics.rotate(th)
+            love.graphics.translate(-xs, -ys)
+            love.graphics.draw(img, 0, 0, 0, scale, scale)
+        love.graphics.pop()
+    end
     desk.world:draw() -- probably remove this later, just debug info
     if curr_tooltip.active then
         drawTooltip()

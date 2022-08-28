@@ -2,13 +2,21 @@
 
 graphic_stamp = {
     name = "Graphic Stamp",
-    description = "These boots were made for stamping, and that's almost what they do."
+    description = "These boots were made for stamping, and that's almost what they do.",
     -- TODO: some kind of image/model for the drawer
     -- Only 1 stamp per click
     -- Stamp/Image Selection
+        im_sc = 1/8, -- image scaler
+        -- im_rot = math.pi * 3/4, -- image rotater for in hand
+        im_width = 40,
+        im_height = 40
     }
 
-graphic_stamp.stamp_image = love.graphics.newImage("assets/graphics/sigmundfreud3.png")
+    
+function graphic_stamp.load()
+    graphic_stamp.stamp_image = love.graphics.newImage("assets/graphics/sigmundfreud3.png")
+    graphic_stamp.image = love.graphics.newImage("assets/tools/graphic_stamp.png")
+end
 
 function graphic_stamp.paint()
     -- Called Every Update

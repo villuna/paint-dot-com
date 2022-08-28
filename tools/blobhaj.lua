@@ -23,6 +23,10 @@ blobhaj = {
     scale = 1/16
 }
 
+function blobhaj.load()
+    -- blobhaj.image = love.graphics.newImage("assets/tools/blobhaj.png")
+end
+
 function blobhaj.paint()
     if love.mouse.isDown(1) and not blobhaj.wasDown then
         blobhaj.wasDown = true

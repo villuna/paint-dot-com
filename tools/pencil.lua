@@ -88,6 +88,11 @@ function dump(o)
     end
  end
 
+
+function pencil.load()
+    -- pencil.image = love.graphics.newImage("assets/tools/pencil.png")
+end
+
 function pencil.paint()
     if love.mouse.isDown(1) then
         if love.mouse.getX() > 200 and love.mouse.getX() < 700 and love.mouse.getY() > 200 and love.mouse.getY() < 600 then
