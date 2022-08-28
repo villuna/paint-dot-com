@@ -17,7 +17,7 @@ function graphic_stamp.paint()
         if love.mouse.getX() > 200 and love.mouse.getX() < 700 and love.mouse.getY() > 200 and love.mouse.getY() < 600 then
             love.graphics.setCanvas(paper.canvas)
                 love.graphics.setBlendMode("alpha")
-                love.graphics.draw(graphic_stamp.stamp_image, love.mouse.getX() - 200, love.mouse.getY() - 200)
+                love.graphics.draw(graphic_stamp.stamp_image, love.mouse.getX() - 200 - graphic_stamp.stamp_image:getWidth() / 2, love.mouse.getY() - 200 - graphic_stamp.stamp_image:getWidth() / 2)
             love.graphics.setCanvas()
         end
     end
