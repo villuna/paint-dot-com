@@ -13,7 +13,7 @@ end
 function menu.update(dt)
     exitter.update()
     reset.update()
-    printer.update()
+    printer.update(dt)
 end
 
 function menu.draw()
