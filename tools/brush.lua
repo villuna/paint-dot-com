@@ -28,16 +28,15 @@ function brush.paint()
     -- Go absolutely wild here
     -- This function is called every update
 
-    print("Hello world!")
     if love.mouse.isDown(1) then
         love.graphics.setCanvas(paper.canvas)
-        love.graphics.setColor(0, 0, 1, 1)
-                love.graphics.setBlendMode("alpha")
-                generate_stars()
-                for i, star in ipairs(stars) do   -- loop through all of our stars
-                    love.graphics.points(star[1], star[2])   -- draw each point
-                 end
-                 love.graphics.setCanvas()
+            love.graphics.setColor(0, 0, 1, 1)
+            love.graphics.setBlendMode("alpha")
+            generate_stars()
+            for i, star in ipairs(stars) do   -- loop through all of our stars
+                love.graphics.points(star[1], star[2])   -- draw each point
+                end
+        love.graphics.setCanvas()
     elseif love.mouse.isDown(2) and love.mouse.getX() < 200 then
         ink = 1
     end
